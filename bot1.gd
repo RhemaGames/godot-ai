@@ -19,6 +19,7 @@ var areas:Array
 var team:int = 0
 var search:bool = false
 var catch:bool = false
+
 ## The state_template is used to guide the decisions of the bot. 
 # event = the stimuli that triggers the decsion  
 # action = What the bot does when the event is triggered
