@@ -43,18 +43,19 @@ var current_state:int = 0:
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var the_states = [["idle",null,null,null]]
-#		["chase",in_range,lock_on,following],
-#		["ram",in_range,lock_on,hit],
-#		["pass",has_object,ally_open,has_object],
-#		["shoot",has_object,targets["goal"],has_object],
-#		["defend",targets["mcguffin"],areas[team],targets["mcguffin"]],
-#		["search",lock_on,search,lock_on],
-#		["catch",in_range,catch,targets["mcguffin"]]
-#		]
+	var the_states = [["idle",null,null,null],["chase",in_range,lock_on,following],["ram",in_range,lock_on,hit]]
+		#["pass",has_object,ally_open,has_object],
+		#["shoot",has_object,targets["goal"],has_object],
+		#["defend",targets["mcguffin"],areas[team],targets["mcguffin"]],
+		#["search",lock_on,search,lock_on],
+		#["catch",in_range,catch,targets["mcguffin"]]
+		#]
 		
 	for s in the_states:
 		add_state(s[0],s[1],s[2],s[3])
+
+func _process(delta):
+	compute()
 
 func get_current_state():
 	return states.keys()[current_state]
@@ -66,11 +67,14 @@ func compute():
 	var available_states = states.keys()
 	match current_state:
 		0: # Idle
-			pass
+			current_state= 1
+			emit_signal("state_changed",states[get_current_state()],states[get_current_state()]["action"],"player")
 		1: # chase
-			pass
+			current_state = 2
+			emit_signal("state_changed",states[get_current_state()],states[get_current_state()]["action"],"player")
 		2: # ram
-			pass
+			current_state = 0
+			emit_signal("state_changed",states[get_current_state()],states[get_current_state()]["action"],"player")
 		3: #pass
 			pass
 		4: #shoot
@@ -83,4 +87,4 @@ func compute():
 			pass
 		8: #callout
 			pass
-			
+	#print(get_current_state())
